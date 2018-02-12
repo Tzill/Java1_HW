@@ -1,5 +1,6 @@
 /**
  * Java. Level 1. Lesson 5. Homework
+ *
  * @author Roman Stepanyuk
  * @version dated Feb 11, 2018
  * @link https://github.com/Tzill
@@ -21,46 +22,36 @@ public class HomeWork5 {
         }
         // Test for Task 2
         System.out.println();
-        System.out.println("Write persArrray to file and then read from the file to console");
+        System.out.println("Writing persArrray to file and then reading from the file to console");
         writePersonArrayToFile("persArray1.txt", persArray);
         readFromFileToConsole("persArray1.txt");
 
         System.out.println();
-        System.out.println("Read from file into persReadArray, then write array to file and then print file to console");
-        Person[] persReadArray = readPersonArrayFromFile("persArray1.txt");
+        System.out.println("Reading from file into persReadArray, then write array to file and then print file to console");
+        Person[] persReadArray = parsePersonArrayFromFile("persArray1.txt", 5);
         writePersonArrayToFile("persArray2.txt", persReadArray);
         readFromFileToConsole("persArray2.txt");
     }
 
     // Task 2
-
-    public static void writePersonArrayToFile(String fileName, Person[] per) {
+    public static void writePersonArrayToFile(String fileName, Person[] per) {  // Writing Person array to file
         try {
             File file = new File(fileName);
-
-            // Создание файла
             file.createNewFile();
-
-            // Создание объекта FileWriter
             FileWriter writer = new FileWriter(file);
-
-            // Запись содержимого в файл
             for (Person p : per) writer.write(p.toString() + "\r\n");
             writer.flush();
             writer.close();
-
         } catch (IOException exc) {
             System.out.println("Ошибка ввода-вывода: " + exc);
         }
     }
 
-
-    public static void readFromFileToConsole(String fileName) {
-        // Создание объекта FileReader
+    public static void readFromFileToConsole(String fileName) { // Reading from file to console
         try {
             FileReader fr = new FileReader(fileName);
-            char[] a = new char[200000];   // Количество символов, которое будем считывать
-            fr.read(a);   // Чтение содержимого в массив
+            char[] a = new char[200000];
+            fr.read(a);
             for (char ch : a) {
                 System.out.print(ch);
             }
@@ -69,11 +60,8 @@ public class HomeWork5 {
         }
     }
 
-
-    public static Person[] readPersonArrayFromFile(String fileName) {
-        //BufferedReader BufferedWriter https://metanit.com/java/tutorial/6.9.php
-        // Создание объекта FileReader
-        Person[] per = new Person[5];
+    public static Person[] parsePersonArrayFromFile(String fileName, int perNum) { // parsing Person array from file
+        Person[] per = new Person[perNum];
         int i = 0, n = 0;
         String buf = "";
         String name = "", position = "", email = "", tel = "";
@@ -132,28 +120,21 @@ class Person {
     int getAge(){
         return age;
     }
-	
-
 	void setName(String name){
 		this.name=name;
 	}
-	
 	void setPosition(String position){
 		this.position=position;
 	}
-	
 	void setEmail(String email){
 		this.email=email;
 	}
-	
 	void setTel(String tel){
 		this.tel=tel;
 	}
-	
 	void setSalary(int salary){
 		this.salary=salary;
 	}
-	
 	void setAge(int age){
 		this.age=age;
 	}
