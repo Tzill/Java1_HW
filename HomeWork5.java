@@ -9,13 +9,18 @@
 import java.io.*;
  
 public class HomeWork5 {
+    private static final int ARRAY_SIZE = 5;
+
     public static void main(String[] args) throws IOException {
-        Person[] persArray = new Person[5];
+        Person[] persArray = new Person[ARRAY_SIZE];
         persArray[0] = new Person("Ivanov Ivan", "Engineer", "ivivan@mailbox.com", "892312312", 30000, 42);
         persArray[1] = new Person("Petrov Petr", "Programmer", "pepetr@mailbox.com", "892312313", 60000, 30);
         persArray[2] = new Person("Alexandrov Alex", "Barmen", "alalex@mailbox.com", "892312314", 50000, 50);
         persArray[3] = new Person("Sergeev Sergey", "Janitor", "sesergey@mailbox.com", "892312315", 20000, 20);
         persArray[4] = new Person("Vasiliev Vasiliy", "Manager", "vavasiliy@mailbox.com", "892312316", 80000, 25);
+        for(int i = 5; i<ARRAY_SIZE; i++){
+            persArray[i] = new Person();
+        }
 
         for (Person p : persArray) {
             if (p.getAge() > 40) System.out.println(p);
@@ -28,7 +33,7 @@ public class HomeWork5 {
 
         System.out.println();
         System.out.println("Reading from file into persReadArray, then write array to file and then print file to console");
-        Person[] persReadArray = parsePersonArrayFromFile("persArray1.txt", 5);
+        Person[] persReadArray = parsePersonArrayFromFile("persArray1.txt");
         writePersonArrayToFile("persArray2.txt", persReadArray);
         readFromFileToConsole("persArray2.txt");
     }
@@ -49,8 +54,9 @@ public class HomeWork5 {
 
     public static void readFromFileToConsole(String fileName) { // Reading from file to console
         try {
+            File file = new File(fileName);
             FileReader fr = new FileReader(fileName);
-            char[] a = new char[200000];
+            char[] a = new char[(int)file.length()];
             fr.read(a);
             for (char ch : a) {
                 System.out.print(ch);
@@ -60,15 +66,16 @@ public class HomeWork5 {
         }
     }
 
-    public static Person[] parsePersonArrayFromFile(String fileName, int perNum) { // parsing Person array from file
-        Person[] per = new Person[perNum];
+    public static Person[] parsePersonArrayFromFile(String fileName) { // parsing Person array from file
+        Person[] per = new Person[ARRAY_SIZE];
         int i = 0, n = 0;
         String buf = "";
         String name = "", position = "", email = "", tel = "";
         int salary = 0, age = 0;
         try {
+            File file = new File(fileName);
             FileReader fr = new FileReader(fileName);
-            char[] a = new char[2000];   // Количество символов, которое будем считывать
+            char[] a = new char[(int)file.length()];   // Количество символов, которое будем считывать
             fr.read(a);   // Чтение содержимого в массив
             for(int k = 0; k<a.length; k++) {
                 if (a[k] == ',') {
@@ -89,7 +96,8 @@ public class HomeWork5 {
                 } else if (a[k] == '\r') {
                     buf = "";
                     continue;
-                }
+                } else if (a[k] == '\u0000')
+                    break;
                 buf += a[k];
             }
         } catch (IOException exc) {
@@ -108,13 +116,22 @@ class Person {
     private int salary;
     private int age;
 
-    public Person(String name, String position, String email, String tel, int salary, int age) {
+    Person(String name, String position, String email, String tel, int salary, int age) {
         this.name = name;
         this.position = position;
         this.email = email;
         this.tel = tel;
         this.salary = salary;
         this.age = age;
+    }
+
+    Person(){
+        this.name = "";
+        this.position = "";
+        this.email = "";
+        this.tel = "";
+        this.salary = 0;
+        this.age = 0;
     }
 
     int getAge(){
