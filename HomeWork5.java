@@ -40,10 +40,13 @@ public class HomeWork5 {
 
     // Task 2
     public static void writePersonArrayToFile(String fileName, Person[] per) {  // Writing Person array to file
-        try {
-            File file = new File(fileName);
+        File file = new File(fileName);
+        //try(FileWriter writer = new FileWriter(file)) {
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter(fileName)))  {
             file.createNewFile();
-            FileWriter writer = new FileWriter(file);
+            //File file = new File(fileName);
+            //file.createNewFile();
+            //FileWriter writer = new FileWriter(file);
             for (Person p : per) writer.write(p.toString() + "\r\n");
             writer.flush();
             writer.close();
