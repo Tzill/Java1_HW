@@ -56,17 +56,28 @@ public class HomeWork5 {
     }
 
     public static void readFromFileToConsole(String fileName) { // Reading from file to console
-        try {
-            File file = new File(fileName);
-            FileReader fr = new FileReader(fileName);
-            char[] a = new char[(int)file.length()];
-            fr.read(a);
-            for (char ch : a) {
-                System.out.print(ch);
-            }
-        } catch (IOException exc) {
+        try (FileReader fr = new FileReader(fileName){
+            try (BufferedReader reader = new BufferedReader){
+            //FileReader fr = new FileReader(fileName);
+            //File file = new File(fileName);
+            //char[] a = new char[(int)file.length()];
+            //fr.read(a);
+            //for (char ch : a) {
+            //    System.out.print(ch);
+                String s;
+                while((s=reader.readLine())!=null) {
+                    System.out.println(s);
+                }
+            } catch (IOException exc) {
             System.out.println("Ошибка ввода-вывода: " + exc);
         }
+        //catch (FileNotFoundException ex){
+        //System.out.println("Ошибка. Файл не найден: " + ex);
+        //}
+
+
+
+
     }
 
     public static Person[] parsePersonArrayFromFile(String fileName) { // parsing Person array from file
