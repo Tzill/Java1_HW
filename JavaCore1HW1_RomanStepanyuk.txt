@@ -1,0 +1,100 @@
+---Main.java---
+package ru.geekbrains.racing;
+import ru.geekbrains.racing.obstacles.Cross;
+import ru.geekbrains.racing.obstacles.Obstacle;
+import ru.geekbrains.racing.obstacles.Wall;
+import ru.geekbrains.racing.obstacles.Water;
+import ru.geekbrains.racing.participants.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Participant[] participants = {new Cat("Barsik"), new Dog("Bobik"), new Human("Bob"), new Human("Vasya")};
+        Obstacle[] obstacles = {new Cross(100), new Wall(10), new Water(5)};
+
+        Course c = new Course(obstacles);
+        if (isTeam(participants)) {
+            Team t1 = new Team("Super Nova", participants);
+            c.doIt(t1);
+            System.out.print(t1.getTeamName() + "  ");
+            t1.showResults();
+        } else {
+            System.out.println("Not enough or too many participants");
+        }
+        Team t2 = new Team("Supero Nuvo", new Dog("Bresik"), new Dog("Boik"), new Human("Boob"), new Human("Vaesya"));
+        c.doIt(t2);
+        System.out.print(t2.getTeamName() + "  ");
+        t2.showResults();
+    }
+
+    public static boolean isTeam(Participant[] participants){
+        if(participants.length != 4) return false;
+        else return true;
+    }
+}
+
+---Course.java---
+package ru.geekbrains.racing;
+import ru.geekbrains.racing.obstacles.Obstacle;
+import ru.geekbrains.racing.participants.Participant;
+
+public class Course {
+    Obstacle[] obstacles;
+
+    public Course(Obstacle[] obstacles) {
+        this.obstacles = obstacles;
+    }
+
+    public void doIt(Team team) throws NullPointerException{
+            for (Participant p : team.getTeam()) {
+                for (Obstacle o : obstacles) {
+                    o.doIt(p);
+                    if (!p.isOnDistance()) {
+                        break;
+                    }
+                }
+            }
+    }
+}
+
+---Team.java---
+package ru.geekbrains.racing;
+import ru.geekbrains.racing.participants.Participant;
+
+public class Team {
+    private String teamName;
+    private Participant[] team;
+
+    public Team(String teamName, Participant[] team){
+        this.team = team;
+        this.teamName = teamName;
+    }
+
+    public Team(String teamName, Participant p1, Participant p2, Participant p3, Participant p4){
+        this.teamName = teamName;
+        team = new Participant[]{p1, p2, p3, p4};
+    }
+
+
+    public String getTeamName() {
+        return teamName;
+    }
+
+    protected Participant[] getTeam() {
+        return team;
+    }
+
+    public void teamInfo(){
+        for(Participant  p : team) {
+            p.info();
+        }
+    }
+
+    public void showResults(){
+        System.out.println("Finished:");
+        for(Participant  p : team) {
+            if (p.isOnDistance()) p.info();
+        }
+    }
+}
+
+
