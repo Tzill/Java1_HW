@@ -2,9 +2,11 @@ import java.util.*;
 
 public class JavaCore1Hw3 {
     public static void main(String[] args) {
+        //Task1
         task1FindDuplicates();
-
-        //task2
+        //Task2 ver 1
+        System.out.println();
+        System.out.println("Task2 ver1");
         TelephoneMap telMap = new TelephoneMap();
         telMap.add("Smith", "A", 4848443);
         telMap.add("Brown", "X", 3433382);
@@ -12,8 +14,18 @@ public class JavaCore1Hw3 {
         telMap.add("Smith", "E", 11122122);
         telMap.print();
         System.out.println(telMap.get("Smith"));
+        //Task2 ver 2
+        System.out.println("Task2 ver2");
+        TelMap telMap1 = new TelMap();
+        telMap1.add1("Smith", 343434);
+        telMap1.add1("White", 195112);
+        telMap1.add1("Smith", 82844);
+        telMap1.add1("Brown", 884802);
+        telMap1.print();
+        System.out.println(telMap1.get("Smith"));
     }
 
+    //Task1
     static void task1FindDuplicates() {
         ArrayList<String> al = new ArrayList<>(Arrays.asList("apple", "peach", "cherry",
                 "tomato", "apple", "orange", "melon", "grapes", "melon", "apple"));
@@ -34,6 +46,7 @@ public class JavaCore1Hw3 {
     }
 }
 
+//Task2 ver 1
 class TelephoneMap {
     Comparator comparator = new Comparator() {
         @Override
@@ -83,5 +96,31 @@ class Person {
     @Override
     public int hashCode(){
         return surname.hashCode()+name.hashCode();
+    }
+}
+
+//Task2 ver 2
+class TelMap {
+    ArrayList<Integer> tels = new ArrayList<>();
+    TreeMap<String, ArrayList<Integer>> tm1 = new TreeMap<>();
+
+    public void add1(String surname, Integer tel){
+        if (tm1.containsKey(surname)){ // if surname exist in tm1 -> add number to ArrayList
+            tels = tm1.get(surname);
+            tels.add(tel);
+            tm1.put(surname, tels);
+        } else {                       // else make new ArrayList with first number
+            tels = new ArrayList<>();
+            tels.add(tel);
+            tm1.put(surname, tels);
+        }
+    }
+    public ArrayList<Integer> get(String surname) { // return all numbers by the surname
+        return tm1.get(surname);
+    }
+    public void print(){
+        for(String o : tm1.keySet()) {
+            System.out.println(o + tm1.get(o));
+        }
     }
 }
