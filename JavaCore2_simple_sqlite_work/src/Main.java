@@ -35,6 +35,8 @@ public class Main {
         flag = true;
         try {
             connect();
+            clearTable();
+            fillTable();
             while (flag) {
                 String userstr = scanner.nextLine();
                 if (!userstr.startsWith("/")) continue;
@@ -44,6 +46,7 @@ public class Main {
                         createTable();
                         break;
                     case  "/заполнитьтаблицу":
+                        clearTable();
                         fillTable();
                         break;
                     case  "/цена":                   // "/цена товар545"
@@ -57,10 +60,18 @@ public class Main {
                           else System.out.println("Такого товара нет");
                         break;
                     case  "/сменитьцену":           // "/сменитьцену товар10 10000"
-                        changePrice(token[1], Integer.parseInt(token[2]));
+                        try {
+                            changePrice(token[1], Integer.parseInt(token[2]));
+                        } catch (NumberFormatException e) {
+                            System.out.println("Цена введена некорректно");
+                        }
                         break;
                     case  "/товарыпоцене":          // "/товарыпоцене 100 600"
-                        System.out.println(getTitlesByPrices(Integer.parseInt(token[1]), Integer.parseInt(token[2])));
+                        try {
+                            System.out.println(getTitlesByPrices(Integer.parseInt(token[1]), Integer.parseInt(token[2])));
+                        } catch (NumberFormatException e) {
+                            System.out.println("Цена введена некорректно");
+                        }
                         break;
                     case "/end":
                         flag = false;
@@ -69,8 +80,6 @@ public class Main {
                         System.out.println("Команда не опознана");
                 }
             }
-
-
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -114,6 +123,10 @@ public class Main {
             ps.addBatch();
         }
         ps.executeBatch();
+    }
+
+    public static void clearTable() throws SQLException{
+        statement.execute("DELETE FROM Goods");
     }
 
     //Task3
