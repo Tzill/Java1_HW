@@ -5,6 +5,7 @@
 //        Можете корректировать классы (в т.ч. конструктор машин) и добавлять объекты классов из пакета util.concurrent.
 
 
+import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.CyclicBarrier;
 
@@ -96,10 +97,8 @@ import java.util.concurrent.CyclicBarrier;
 public class MainClass {
     public static final int CARS_COUNT = 4;
 
-    private final static CyclicBarrier cb = new CyclicBarrier(4);
-    public final static CountDownLatch cdl = new CountDownLatch(4);
+    public final static CyclicBarrier cb = new CyclicBarrier(5);
     public final static CountDownLatch cdlm = new CountDownLatch(5);
-    public final static CountDownLatch wcdl = new CountDownLatch(4);
 
     public static void main(String[] args) {
         System.out.println("ВАЖНОЕ ОБЪЯВЛЕНИЕ >>> Подготовка!!!");
@@ -114,20 +113,23 @@ public class MainClass {
         }
 
         try {
-            cdl.await();
+            cb.await();
             System.out.println("ВАЖНОЕ ОБЪЯВЛЕНИЕ >>> Гонка началась!!!");
             cdlm.countDown();
         } catch (InterruptedException e) {
             e.printStackTrace();
+        } catch (BrokenBarrierException e) {
+            e.printStackTrace();
         }
 
         try {
-            wcdl.await();
+            cb.await();
         } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (BrokenBarrierException e) {
             e.printStackTrace();
         }
         System.out.println("ВАЖНОЕ ОБЪЯВЛЕНИЕ >>> Гонка закончилась!!!");
-
     }
 }
 
