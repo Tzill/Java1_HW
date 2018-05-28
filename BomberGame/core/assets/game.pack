@@ -1,0 +1,61 @@
+
+images1.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+explosion
+  rotate: false
+  xy: 2, 2
+  size: 640, 640
+  orig: 640, 640
+  offset: 0, 0
+  index: -1
+bomberA
+  rotate: false
+  xy: 644, 2
+  size: 320, 160
+  orig: 320, 160
+  offset: 0, 0
+  index: -1
+simpleButton
+  rotate: false
+  xy: 644, 164
+  size: 320, 80
+  orig: 320, 80
+  offset: 0, 0
+  index: -1
+wall
+  rotate: false
+  xy: 644, 246
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+grass
+  rotate: false
+  xy: 726, 246
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+box
+  rotate: false
+  xy: 808, 246
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+bomber
+  rotate: false
+  xy: 890, 246
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+bomb
+  rotate: false
+  xy: 644, 328
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
